@@ -1,0 +1,64 @@
+<!-- order.html -->
+ <head>
+    <link rel="stylesheet" href="style2.css">
+ </head>
+<form id="orderForm">
+    <input type="text" id="name" placeholder="Name" required>
+     <input type="text" id="name" placeholder="Adress" required>
+    <select id="item">
+        <option value="Jimma">Ethiopian Jimma(birr 30/cup)</option>
+        <option value="Yirgacheffe">Ethiopian Yirgacheffe(birr 27.4/cup)</option>
+        <option value="Sidamo">Ethiopian Sidamo(birr 23/cup)</option>
+        <option value="Wolega">Ethiopian Wolega(birr 18.12/cup)</option>
+        <option value="Wollo">Ethiopian Wollo(birr 20/cup)</option>
+        <option value="Arbaminch">Ethiopian Arbaminch(birr 17/cup)</option>
+        <option value="Tigray">Ethiopian Tigrian(birr 30/cup)</option>
+    </select>
+    <input type="number" id="qty" placeholder="Quantity" required>
+    <button type="submit">Place Order</button>
+</form>
+<script type="module">
+  // 1. Import the Firebase tools we need
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+  import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+  // 2. Your unique project keys (from your screenshot)
+  const firebaseConfig = {
+    apiKey: "AIzaSyCuoAfHAFiTAYJcGr6e6VzkDprnng3detw",
+    authDomain: "ethiopiancoffeebrand.firebaseapp.com",
+    databaseURL: "https://ethiopiancoffeebrand-default-rtdb.firebaseio.com",
+    projectId: "ethiopiancoffeebrand",
+    storageBucket: "ethiopiancoffeebrand.firebasestorage.app",
+    messagingSenderId: "598170940102",
+    appId: "1:598170940102:web:c049c511555bf5961bddc7"
+  };
+
+  // 3. Initialize Firebase and Firestore
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
+
+  // 4. Handle the Order Form submission
+  const orderForm = document.getElementById('orderForm');
+
+  orderForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    // Capture data from your HTML input IDs: "name", "item", and "qty"[cite: 3]
+    const orderData = {
+      customerName: document.getElementById('name').value,
+      coffeeType: document.getElementById('item').value,
+      quantity: document.getElementById('qty').value,
+      timestamp: new Date()
+    };
+
+    try {
+      // This sends the data to a collection named "orders" in your new database
+      await addDoc(collection(db, "orders"), orderData);
+      alert("Success! Your order has been sent to the database.");
+      orderForm.reset();
+    } catch (error) {
+      console.error("Error adding document: ", error);
+      alert("Submission failed. Check your Database Rules.");
+    }
+  });
+</script>
