@@ -43,11 +43,12 @@
   orderForm.addEventListener('submit', async (e) => {
     e.preventDefault();
 
-    // Capture data from your HTML input IDs: "name", "item", and "qty"[cite: 3]
+    // Capture data from your HTML input IDs: "name", "item", "qty" and "adress"[cite: 4]
     const orderData = {
       customerName: document.getElementById('name').value,
       coffeeType: document.getElementById('item').value,
       quantity: document.getElementById('qty').value,
+     address: document.getElementById('adress').value,
       timestamp: new Date()
     };
 
